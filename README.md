@@ -37,6 +37,8 @@ Scenario to Test:
 
 - config file `playwright.config.ts`
 - disable browsers, i.e. Firefox
+
+  video:'retain-on-failure'
   ```javascript
   // {
   //   name: 'firefox',
