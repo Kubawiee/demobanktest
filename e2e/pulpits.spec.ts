@@ -10,7 +10,7 @@ test.describe('Pulpit test', () => {
     const receiverId = '2';
     const amoutCash = '1000';
     const productTitle = 'przelew szybki';
-    const expectedUserName = 'Przelew wykonany! Chuck Demobankowy - ';
+    const expectedUserName = 'PXrzelew wykonany! Chuck Demobankowy - ';
 
     //Act
     await page.goto(url);
