@@ -37,6 +37,7 @@ Scenario to Test:
 
 - config file `playwright.config.ts`
 - disable browsers, i.e. Firefox
+- testDir: './tests', //was ./e2e
 
   video:'retain-on-failure'
   ```javascript

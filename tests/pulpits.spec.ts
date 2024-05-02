@@ -1,9 +1,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Pulpit test', () => {
+  test.beforeEach('Before Each', async ({ page }) => {
+    const url = 'https://demo-bank.vercel.app/';
+    await page.goto(url);
+  });
   test('quick payment metod', async ({ page }) => {
     //Arrange
-    const url = 'https://demo-bank.vercel.app/';
     const userId = 'kuba1234';
     const userPassword = 'password';
 
@@ -13,7 +16,6 @@ test.describe('Pulpit test', () => {
     const expectedUserName = 'XPrzelew wykonany! Chuck Demobankowy - ';
 
     //Act
-    await page.goto(url);
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill(userPassword);
     await page.getByTestId('login-button').click();
