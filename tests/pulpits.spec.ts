@@ -3,23 +3,21 @@ import { test, expect } from '@playwright/test';
 test.describe('Pulpit test', () => {
   test.beforeEach('Before Each', async ({ page }) => {
     const url = 'https://demo-bank.vercel.app/';
-    await page.goto(url);
-  });
-  test('quick payment metod', async ({ page }) => {
-    //Arrange
     const userId = 'kuba1234';
     const userPassword = 'password';
-
-    const receiverId = '2';
-    const amoutCash = '1000';
-    const productTitle = 'przelew szybkiX';
-    const expectedUserName = 'XPrzelew wykonany! Chuck Demobankowy - ';
-
-    //Act
+    await page.goto(url);
     await page.getByTestId('login-input').fill(userId);
     await page.getByTestId('password-input').fill(userPassword);
     await page.getByTestId('login-button').click();
+  });
+  test('quick payment metod', async ({ page }) => {
+    //Arrange
+    const receiverId = '2';
+    const amoutCash = '1000';
+    const productTitle = 'przelew szybkiX';
+    const expectedUserName = 'Przelew wykonany! Chuck Demobankowy - ';
 
+    //Act
     await page.locator('#widget_1_transfer_receiver').selectOption(receiverId);
     await page.locator('#widget_1_transfer_amount').fill(amoutCash);
     await page.locator('#widget_1_transfer_title').fill(productTitle);
@@ -32,11 +30,6 @@ test.describe('Pulpit test', () => {
     );
   });
   test('quick payment metod2', async ({ page }) => {
-    await page.goto('https://demo-bank.vercel.app/');
-    await page.getByTestId('login-input').fill('12312548');
-    await page.getByTestId('password-input').fill('45456555');
-    await page.getByTestId('login-button').click();
-
     await page.locator('#widget_1_topup_receiver').selectOption('502 xxx xxx');
     await page.locator('#widget_1_topup_amount').fill('100');
     await page.locator('#uniform-widget_1_topup_agreement span').click();
