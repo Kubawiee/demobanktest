@@ -41,6 +41,7 @@ Scenario to Test:
 - baseURL: 'https://demo-bank.vercel.app',
 
   video:'retain-on-failure'
+
   ```javascript
   // {
   //   name: 'firefox',
@@ -49,6 +50,7 @@ Scenario to Test:
   //   },
   // },
   ```
+
 - enable video on fail
   ```javascript
   use: {
