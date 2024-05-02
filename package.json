@@ -9,6 +9,10 @@
     "typescript": "^5.4.5"
   },
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:pulpit": "npm run test tests/pulpit.spec.ts",
+    "test:login": "npm run test tests/login.spec.ts",
+    "test:login:headed": "npm run test tests/login.spec.ts -- --headed"
   }
 }
