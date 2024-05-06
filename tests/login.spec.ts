@@ -7,12 +7,11 @@ test.describe('User login to Ecomerce', () => {
     await page.goto('/');
   });
   const expectedUsername = loginData.expectedUsername;
+  const userId = loginData.userId;
+  const userPassword = loginData.userPassword;
 
   test('login with correct credentails', async ({ page }) => {
     //Arrange
-    const userId = loginData.userId;
-    const userPassword = loginData.userPassword;
-
     //Act
     const loginPage = new LoginPage(page);
     await loginPage.loginInput.fill(userId);
@@ -31,20 +30,21 @@ test.describe('User login to Ecomerce', () => {
     await page.getByTestId('login-input').blur();
 
     // Assert
-    await expect(loginPage.loginError).toHaveText(
-      expectedErrorInccorectLogin,
-    );
+    await expect(loginPage.loginError).toHaveText(expectedErrorInccorectLogin);
   });
 
   test('login with wrong too short password', async ({ page }) => {
-    await page.getByTestId('login-input').fill('login123');
-    await page.getByTestId('password-input').fill('passwor');
-    await page.getByTestId('password-input').blur();
-
-    const expectedErrormessage = 'identyfikator ma min. 8 znaków';
-
-    await expect(page.getByTestId('error-login-password')).toHaveText(
-      'hasło ma min. 8 znaków',
+    //Arrange
+    const userInccorectPassword = 'passwor';
+    const expectedErrorInccorectPassword = 'hasło ma min. 8 znaków';
+    //Act
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userId);
+    await loginPage.passwordInput.fill(userInccorectPassword);
+    await loginPage.passwordInput.blur();
+    //Assert
+    await expect(loginPage.loginErrorPassword).toHaveText(
+      expectedErrorInccorectPassword,
     );
   });
 });
