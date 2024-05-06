@@ -7,10 +7,10 @@ test.describe('Pulpit test', () => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
     await page.goto('/');
-    const loginPage = new LoginPage(page)
-    await loginPage.loginInput.fill(userId)
-    await loginPage.passwordInput.fill(userPassword)
-    await loginPage.loginButton.click()
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userId);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
   });
   test('quick payment metod', async ({ page }) => {
     //Arrange

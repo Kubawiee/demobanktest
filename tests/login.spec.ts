@@ -6,29 +6,33 @@ test.describe('User login to Ecomerce', () => {
   test.beforeEach('Before Each', async ({ page }) => {
     await page.goto('/');
   });
+  const expectedUsername = loginData.expectedUsername;
 
   test('login with correct credentails', async ({ page }) => {
     //Arrange
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
-    const expectedUserName = 'Jan Demobankowy';
 
     //Act
-    const loginPage = new LoginPage(page)
-    await loginPage.loginInput.fill(userId)
-    await loginPage.passwordInput.fill(userPassword)
-    await loginPage.loginButton.click()
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userId);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.loginButton.click();
 
     //Assert
-    await expect(page.getByTestId('user-name')).toHaveText(expectedUserName);
+    await expect(page.getByTestId('user-name')).toHaveText(expectedUsername);
   });
 
   test('login with wrong to short login', async ({ page }) => {
-    await page.getByTestId('login-input').fill('login');
+    const userIncorrectLogin = 'login';
+    const expectedErrorInccorectLogin = 'identyfikator ma min. 8 znaków';
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userIncorrectLogin);
     await page.getByTestId('login-input').blur();
 
-    await expect(page.getByTestId('error-login-id')).toHaveText(
-      'identyfikator ma min. 8 znaków',
+    // Assert
+    await expect(loginPage.loginError).toHaveText(
+      expectedErrorInccorectLogin,
     );
   });
 
@@ -36,6 +40,8 @@ test.describe('User login to Ecomerce', () => {
     await page.getByTestId('login-input').fill('login123');
     await page.getByTestId('password-input').fill('passwor');
     await page.getByTestId('password-input').blur();
+
+    const expectedErrormessage = 'identyfikator ma min. 8 znaków';
 
     await expect(page.getByTestId('error-login-password')).toHaveText(
       'hasło ma min. 8 znaków',
