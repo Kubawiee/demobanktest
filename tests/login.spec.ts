@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { loginData } from '../test-data/login.data';
 import { LoginPage } from '../page/login.page';
 
-test.describe('User login to Ecomerce', () => {
+test.describe('User login to Ecomerce ', () => {
   let loginPage: LoginPage;
   test.beforeEach('Before Each', async ({ page }) => {
     await page.goto('/');
@@ -12,7 +12,7 @@ test.describe('User login to Ecomerce', () => {
   const userId = loginData.userId;
   const userPassword = loginData.userPassword;
 
-  test('login with correct credentails', async ({ page }) => {
+  test('login with correct credentails @login @smoke', async ({ page }) => {
     //Arrange
     //Act
     await loginPage.login(userId, userPassword);
@@ -21,7 +21,7 @@ test.describe('User login to Ecomerce', () => {
     await expect(page.getByTestId('user-name')).toHaveText(expectedUsername);
   });
 
-  test('login with wrong to short login', async ({ page }) => {
+  test('login with wrong to short login @login', async ({ page }) => {
     const userIncorrectLogin = 'login';
     const expectedErrorInccorectLogin = 'identyfikator ma min. 8 znaków';
     const loginPage = new LoginPage(page);
@@ -32,7 +32,7 @@ test.describe('User login to Ecomerce', () => {
     await expect(loginPage.loginError).toHaveText(expectedErrorInccorectLogin);
   });
 
-  test('login with wrong too short password', async ({ page }) => {
+  test('login with wrong too short password @login', async ({ page }) => {
     //Arrange
     const userInccorectPassword = 'passwor';
     const expectedErrorInccorectPassword = 'hasło ma min. 8 znaków';

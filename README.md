@@ -5,6 +5,9 @@ Coffee Mug
 
 ## O Repozytorium
 
+//run only with @tag
+npx playwright test --grep "@login"
+
 ## Treść zadania rekrutacyjnego
 
 Task: E-commerce Website Testing
