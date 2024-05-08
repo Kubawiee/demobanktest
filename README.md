@@ -7,7 +7,10 @@ Coffee Mug
 
 //run only with @tag
 npx playwright test --grep "@login"
-
+//run without @tag
+npx playwright test --grep-invert "@login"
+//run both tag
+npx playwright test --grep "(?=.*@integration)(?=.*@pulpit)"
 ## Treść zadania rekrutacyjnego
 
 Task: E-commerce Website Testing

@@ -13,6 +13,7 @@
     "test:headed": "playwright test --headed",
     "test:pulpit": "npm run test tests/pulpit.spec.ts",
     "test:login": "npm run test tests/login.spec.ts",
-    "test:login:headed": "npm run test tests/login.spec.ts -- --headed"
+    "test:login:headed": "npm run test tests/login.spec.ts -- --headed",
+    "test:logintag": "npx playwright test --grep \"@login\""
   }
 }
