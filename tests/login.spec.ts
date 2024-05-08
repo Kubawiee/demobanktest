@@ -3,8 +3,10 @@ import { loginData } from '../test-data/login.data';
 import { LoginPage } from '../page/login.page';
 
 test.describe('User login to Ecomerce', () => {
+  let loginPage: LoginPage;
   test.beforeEach('Before Each', async ({ page }) => {
     await page.goto('/');
+    loginPage = new LoginPage(page);
   });
   const expectedUsername = loginData.expectedUsername;
   const userId = loginData.userId;
@@ -13,10 +15,7 @@ test.describe('User login to Ecomerce', () => {
   test('login with correct credentails', async ({ page }) => {
     //Arrange
     //Act
-    const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userId, userPassword);
 
     //Assert
     await expect(page.getByTestId('user-name')).toHaveText(expectedUsername);
@@ -38,7 +37,6 @@ test.describe('User login to Ecomerce', () => {
     const userInccorectPassword = 'passwor';
     const expectedErrorInccorectPassword = 'hasło ma min. 8 znaków';
     //Act
-    const loginPage = new LoginPage(page);
     await loginPage.loginInput.fill(userId);
     await loginPage.passwordInput.fill(userInccorectPassword);
     await loginPage.passwordInput.blur();
