@@ -1,20 +1,18 @@
 pipeline {
     agent any
 
-    environment {
-        // Ustawienie domyślnego środowiska na 'test'
-        TEST_ENV = 'test'
+    triggers {
+        cron('H 8 * * *')
     }
 
-    triggers {
-        cron('0 8 * * *') // Uruchomienie codziennie o 8:00
+    environment {
+        TEST_ENV = 'test'
     }
 
     stages {
         stage('Setup Environment') {
             steps {
                 script {
-                    // Ustawienie zmiennej BASE_URL w zależności od TEST_ENV
                     if (env.TEST_ENV == 'test') {
                         env.BASE_URL = 'https://demo-bank.vercel.app'
                     } else if (env.TEST_ENV == 'production') {
@@ -27,7 +25,6 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Instalacja zależności
                     if (isUnix()) {
                         sh 'npm install'
                     } else {
@@ -40,11 +37,18 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Uruchomienie testów z odpowiednim środowiskiem
                     if (isUnix()) {
-                        sh 'npm run test:$TEST_ENV'
+                        if (env.TEST_ENV == 'test') {
+                            sh 'npm run test:test-env'
+                        } else if (env.TEST_ENV == 'production') {
+                            sh 'npm run test:prod-env'
+                        }
                     } else {
-                        bat "npm run test:$TEST_ENV"
+                        if (env.TEST_ENV == 'test') {
+                            bat 'npm run test:test-env'
+                        } else if (env.TEST_ENV == 'production') {
+                            bat 'npm run test:prod-env'
+                        }
                     }
                 }
             }
@@ -53,12 +57,9 @@ pipeline {
 
     post {
         always {
-            // Archiwizacja wyników testów i zrzutów ekranu
-            archiveArtifacts artifacts: '**/test-results/*.xml', allowEmptyArchive: true
-            archiveArtifacts artifacts: '**/screenshots/*.png', allowEmptyArchive: true
-
-            // Publikacja wyników testów
-            junit '**/test-results/*.xml'
+            archiveArtifacts artifacts: '**/test-results/**/*.xml', allowEmptyArchive: true
+            archiveArtifacts artifacts: '**/screenshots/**/*.png', allowEmptyArchive: true
+            junit '**/test-results/**/*.xml'
         }
     }
 }
