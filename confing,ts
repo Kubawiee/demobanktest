@@ -1,0 +1,14 @@
+export const environment = {
+  test: {
+    baseUrl: 'https://test.example.com',
+  },
+  production: {
+    //taki sam jak test, bo to przykład
+    baseUrl: 'https://example.com',
+  },
+};
+
+export const getEnvConfig = () => {
+  const env = process.env.TEST_ENV || 'test';
+  return environment[env];
+};
