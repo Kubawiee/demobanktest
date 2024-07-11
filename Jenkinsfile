@@ -6,6 +6,10 @@ pipeline {
         TEST_ENV = 'test'
     }
 
+    triggers {
+        cron('0 8 * * *') // Uruchomienie codziennie o 8:00
+    }
+
     stages {
         stage('Setup Environment') {
             steps {
@@ -22,14 +26,8 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Instalacja Node.js
                 script {
-                    def nodeJSHome = tool name: 'NodeJS 14.17.0', type: 'NodeJSInstallation'
-                    env.PATH = "${nodeJSHome}/bin:${env.PATH}"
-                }
-
-                // Instalacja zależności
-                script {
+                    // Instalacja zależności
                     if (isUnix()) {
                         sh 'npm install'
                     } else {
