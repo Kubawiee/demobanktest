@@ -1,0 +1,34 @@
+# Use an official Node runtime as a parent image
+FROM mcr.microsoft.com/playwright:v1.39.0-focal
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy the rest of your app's source code
+COPY . .
+
+# Install Playwright browsers
+RUN npx playwright install --with-deps
+
+# Create a directory for price files
+RUN mkdir -p price_data
+
+# Set environment variable for the product name (default value)
+ENV PRODUCT_NAME "The Witcher 3"
+
+# Install http-server to serve the HTML report
+RUN npm install -g http-server
+
+# Run the test, generate the report, and serve it
+CMD npx playwright test && \
+    npx playwright show-report && \
+    http-server playwright-report -p 9323
+
+# Expose port 9323 to view the report
+EXPOSE 9323
